@@ -1,0 +1,39 @@
+﻿@page "/games"
+@inject IGame GameService
+@attribute [StreamRendering(true)]
+
+
+<h3>GameList</h3>
+@if (games == null)
+{
+    <span>
+        Loading...
+    </span>
+}
+else if (games.Count == 0)
+{
+    <span>
+        No Game Found
+    </span>
+}
+else
+{
+    <ul>
+        @foreach (var game in games)
+        {
+            <li>
+                @game.Name
+            </li>
+        }
+    </ul>
+}
+<CreateGameButton />
+@code {
+    List<Game> games = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        games = await GameService.GetAll();
+    }
+
+}

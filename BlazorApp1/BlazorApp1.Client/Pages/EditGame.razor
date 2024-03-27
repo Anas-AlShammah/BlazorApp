@@ -1,0 +1,21 @@
+﻿@page "/edit-game"
+@page "/edit-game/{id:int}"
+@inject IGame GameService
+<h3>Create Game</h3>
+
+<EditForm Model="game" OnSubmit="HandleSubmit" FormName="editGame">
+    <label>Name</label>
+    <InputText @bind-Value="game.Name">@game.Name</InputText>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int? id { get; set; }
+    [SupplyParameterFromForm]
+    Game game { get; set; } = new Game { Name = string.Empty };
+    async Task HandleSubmit()
+    {
+        await GameService.Add(game);
+    }
+}
